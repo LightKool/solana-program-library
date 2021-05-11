@@ -1,10 +1,11 @@
 //! Program entrypoint definitions
 
-use crate::{error::SwapError, processor::Processor};
+use crate::processor::Processor;
 use solana_program::{
     account_info::AccountInfo, entrypoint, entrypoint::ProgramResult,
     program_error::PrintProgramError, pubkey::Pubkey,
 };
+use spl_token_swap::error::SwapError;
 
 entrypoint!(process_instruction);
 fn process_instruction(

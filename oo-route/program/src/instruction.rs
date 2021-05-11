@@ -5,12 +5,10 @@
 use crate::error::SwapError;
 use solana_program::program_error::ProgramError;
 use std::convert::TryInto;
-use std::mem::size_of;
 
 use crate::state::OOSwapStruct;
 #[cfg(feature = "fuzz")]
 use arbitrary::Arbitrary;
-use spl_token_swap::instruction::Swap;
 
 /// Instructions supported by the token swap program.
 #[repr(C)]
@@ -28,28 +26,26 @@ impl OOSwapInstruction {
             0 => {
                 let (&swap_info_len, rest) =
                     rest.split_first().ok_or(SwapError::InvalidInstruction)?;
-                if rest.len() % 16 != 0 {
-                    //必须是16的整数倍
+                if rest.len() % 8 != 0 {
                     return Err(SwapError::InvalidInstruction.into());
                 }
-                let size = rest.len() / 16;
+                let size = rest.len() / 8 - 1;
                 if size as u8 != swap_info_len {
-                    //swap info 的长度和amount_in的长度 必须一样
                     return Err(SwapError::InvalidInstruction.into());
                 }
 
-                let mut data = vec![];
+                let mut amounts_in = vec![];
+                let mut outer_rest = rest;
                 for _ in (0..size).into_iter() {
-                    let (amount_in, rest) = Self::unpack_u64(rest)?;
-                    let (minimum_amount_out, _rest) = Self::unpack_u64(rest)?;
-                    data.push(Swap {
-                        amount_in,
-                        minimum_amount_out,
-                    });
+                    let (amount_in, rest) = Self::unpack_u64(outer_rest)?;
+                    amounts_in.push(amount_in);
+                    outer_rest = rest;
                 }
+                let (minimum_amount_out, _rest) = Self::unpack_u64(outer_rest)?;
                 Self::OOSwap(OOSwapStruct {
-                    data,
                     swap_info_len,
+                    amounts_in,
+                    minimum_amount_out,
                 })
             }
             _ => return Err(SwapError::InvalidInstruction.into()),
@@ -69,15 +65,4 @@ impl OOSwapInstruction {
             Err(SwapError::InvalidInstruction.into())
         }
     }
-}
-
-/// Unpacks a reference from a bytes buffer.
-/// TODO actually pack / unpack instead of relying on normal memory layout.
-pub fn unpack<T>(input: &[u8]) -> Result<&T, ProgramError> {
-    if input.len() < size_of::<u8>() + size_of::<T>() {
-        return Err(ProgramError::InvalidAccountData);
-    }
-    #[allow(clippy::cast_ptr_alignment)]
-    let val: &T = unsafe { &*(&input[1] as *const u8 as *const T) };
-    Ok(val)
 }
