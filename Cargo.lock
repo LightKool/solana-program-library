@@ -2329,24 +2329,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "program"
-version = "0.1.0"
-dependencies = [
- "arbitrary",
- "arrayref",
- "enum_dispatch",
- "num-derive",
- "num-traits",
- "proptest",
- "solana-program",
- "solana-sdk",
- "spl-math",
- "spl-token 3.1.0",
- "spl-token-swap",
- "thiserror",
-]
-
-[[package]]
 name = "proptest"
 version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4023,6 +4005,24 @@ name = "subtle"
 version = "2.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "502d53007c02d7605a05df1c1a73ee436952781653da5d0bf57ad608f66932c1"
+
+[[package]]
+name = "swap-aggregator"
+version = "0.1.0"
+dependencies = [
+ "arbitrary",
+ "arrayref",
+ "enum_dispatch",
+ "num-derive",
+ "num-traits",
+ "proptest",
+ "solana-program",
+ "solana-sdk",
+ "spl-math",
+ "spl-token 3.1.0",
+ "spl-token-swap",
+ "thiserror",
+]
 
 [[package]]
 name = "symlink"

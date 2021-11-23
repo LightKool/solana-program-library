@@ -4,7 +4,7 @@ use crate::error::SwapError;
 use crate::state::SwapState;
 use std::convert::TryInto;
 
-pub const MIN_VALUE: i128 = (-1 as i128) * ((10 as i128).pow(36));
+pub const MIN_VALUE: i128 = -1;
 
 pub fn calculate_swap_return(
     token_swap: Box<dyn SwapState>,

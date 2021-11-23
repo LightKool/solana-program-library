@@ -21,7 +21,7 @@ import {loadAccount} from './util/account';
 //3dSBFmJ6zvMmeDCXrP1N9CXBYs65rbHxpCRRyHSRgyZD
 //SwaPpA9LAaLfeLi3a68M4DjnLqgtticKg6CnyNwgAC8
 export const TOKEN_SWAP_PROGRAM_ID: PublicKey = new PublicKey(
-  '3dSBFmJ6zvMmeDCXrP1N9CXBYs65rbHxpCRRyHSRgyZD',
+  '9zt2vgp2JMDwiN3cQt36g2JiZXwQcURoLzZQmnuMGNTo',
 );
 
 /**

@@ -71,7 +71,7 @@ impl Processor {
             let pool_fee_account_info = next_account_info(account_info_iter)?;
 
             let ix = swap(
-                swap_program_info.key, //TODO 这个 是不是应该修改成 调用的合约的地址
+                swap_program_info.key,
                 token_program_info.key,
                 swap_info.key,
                 authority_info.key,
@@ -88,6 +88,10 @@ impl Processor {
                     minimum_amount_out: 0,
                 },
             )?;
+
+            // let program_bytes = program_id.to_bytes();
+            // let authority_signature_seeds = [&program_bytes[..32]];
+            // let signers = &[&authority_signature_seeds[..]];
             let res = invoke(
                 &ix,
                 &[
@@ -101,6 +105,7 @@ impl Processor {
                     pool_mint_info.clone(),
                     pool_fee_account_info.clone(),
                     token_program_info.clone(),
+                    swap_program_info.clone(),
                 ],
             );
             if res.is_err() {

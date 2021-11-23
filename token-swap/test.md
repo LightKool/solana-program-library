@@ -1,7 +1,7 @@
 
 启动本地测试节点
 ```
-solana-test-validator --bpf-program 3dSBFmJ6zvMmeDCXrP1N9CXBYs65rbHxpCRRyHSRgyZD ../../target/deploy/spl_token_swap.so --reset --quiet
+solana-test-validator --bpf-program 9zt2vgp2JMDwiN3cQt36g2JiZXwQcURoLzZQmnuMGNTo ../../target/deploy/spl_token_swap.so --reset --quiet
 ```
 
 运行测试代码
